@@ -1,0 +1,140 @@
+import type { Student } from "@/types/student";
+
+export const students: Student[] = [
+  {
+    id: "1",
+    admissionNumber: "SP001",
+    firstName: "Emeka",
+    lastName: "Nwosu",
+    fullName: "Emeka Nwosu",
+    initials: "EN",
+    class: "SS2A",
+    gender: "Male",
+    parentName: "Mr. Nwosu",
+    parentPhone: "08031234567",
+    virtualAccount: "011528473301",
+    expectedFee: 120000,
+    amountPaid: 120000,
+    outstandingBalance: 0,
+    paymentStatus: "PAID",
+  },
+  {
+    id: "2",
+    admissionNumber: "SP002",
+    firstName: "Fatima",
+    lastName: "Al-Hassan",
+    fullName: "Fatima Al-Hassan",
+    initials: "FA",
+    class: "JSS3B",
+    gender: "Female",
+    parentName: "Mrs. Al-Hassan",
+    parentPhone: "08039876543",
+    virtualAccount: "011528477722",
+    expectedFee: 120000,
+    amountPaid: 85000,
+    outstandingBalance: 35000,
+    paymentStatus: "UNDERPAID",
+  },
+  {
+    id: "3",
+    admissionNumber: "SP003",
+    firstName: "Chukwuemeka",
+    lastName: "Eze",
+    fullName: "Chukwuemeka Eze",
+    initials: "CE",
+    class: "SS1C",
+    gender: "Male",
+    parentName: "Mr. Eze",
+    parentPhone: "08051112222",
+    virtualAccount: "011528475519",
+    expectedFee: 120000,
+    amountPaid: 150000,
+    outstandingBalance: 0,
+    paymentStatus: "OVERPAID",
+  },
+  {
+    id: "4",
+    admissionNumber: "SP004",
+    firstName: "Ngozi",
+    lastName: "Okafor",
+    fullName: "Ngozi Okafor",
+    initials: "NO",
+    class: "JSS1A",
+    gender: "Female",
+    parentName: "Mrs. Okafor",
+    parentPhone: "08064443322",
+    virtualAccount: "011528471103",
+    expectedFee: 120000,
+    amountPaid: 0,
+    outstandingBalance: 120000,
+    paymentStatus: "PENDING",
+  },
+  {
+    id: "5",
+    admissionNumber: "SP005",
+    firstName: "Yusuf",
+    lastName: "Bello",
+    fullName: "Yusuf Bello",
+    initials: "YB",
+    class: "SS3A",
+    gender: "Male",
+    parentName: "Mr. Bello",
+    parentPhone: "08075554433",
+    virtualAccount: "011528479988",
+    expectedFee: 120000,
+    amountPaid: 120000,
+    outstandingBalance: 0,
+    paymentStatus: "PAID",
+  },
+  {
+    id: "6",
+    admissionNumber: "SP006",
+    firstName: "Femi",
+    lastName: "Oyeleke",
+    fullName: "Femi Oyeleke",
+    initials: "FO",
+    class: "SS3A",
+    gender: "Male",
+    parentName: "Mr. Oyeleke",
+    parentPhone: "08075554433",
+    virtualAccount: "031528479988",
+    expectedFee: 120000,
+    amountPaid: 120000,
+    outstandingBalance: 0,
+    paymentStatus: "PAID",
+  },
+];
+
+export const studentStats = {
+  totalStudents: students.length,
+
+  expectedRevenue: students.reduce(
+    (total, student) => total + student.expectedFee,
+    0,
+  ),
+
+  collectedRevenue: students.reduce(
+    (total, student) => total + student.amountPaid,
+    0,
+  ),
+
+  outstandingRevenue: students.reduce(
+    (total, student) => total + student.outstandingBalance,
+    0,
+  ),
+
+  paidStudents: students.filter((student) => student.paymentStatus === "PAID")
+    .length,
+
+  underpaidStudents: students.filter(
+    (student) => student.paymentStatus === "UNDERPAID",
+  ).length,
+
+  overpaidStudents: students.filter(
+    (student) => student.paymentStatus === "OVERPAID",
+  ).length,
+
+  pendingStudents: students.filter(
+    (student) => student.paymentStatus === "PENDING",
+  ).length,
+};

@@ -1,0 +1,32 @@
+import { Outlet } from "react-router-dom";
+import { useState } from "react";
+
+import Sidebar from "@/components/layout/Sidebar";
+import MobileSidebar from "@/components/layout/MobileSidebar";
+import Navbar from "@/components/layout/Navbar";
+import ScrollToTop from "@/components/ui/ScrollToTop";
+
+export default function DashboardLayout() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <ScrollToTop />
+
+      <Sidebar />
+
+      <MobileSidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+      />
+
+      <div className="lg:pl-[280px]">
+        <Navbar onMenuClick={() => setIsSidebarOpen(true)} />
+
+        <main className="p-4 md:p-6">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
+}
