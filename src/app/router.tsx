@@ -9,6 +9,7 @@ import StudentProfile from "@/pages/students/StudentProfile";
 import VirtualAccounts from "../pages/virtual-accounts/VirtualAccounts";
 // import Invoices from "../pages/invoices/Invoices";
 import Payments from "../pages/payments/Payments";
+import AddStudent from "@/pages/students/AddStudent";
 // import Reconciliation from "../pages/reconciliation/Reconciliation";
 // import Reports from "../pages/reports/Reports";
 // import Settings from "../pages/settings/Settings";
@@ -30,6 +31,11 @@ export const router = createBrowserRouter([
       {
         path: "students/:id",
         element: <StudentProfile />,
+      },
+
+      {
+        path: "students/new",
+        element: <AddStudent />,
       },
 
       //   {

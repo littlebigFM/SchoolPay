@@ -7,11 +7,15 @@ import { studentSchema } from "@/schemas/studentSchema";
 import type { StudentFormData } from "@/types/studentForm";
 
 import StudentStepper from "./StudentStepper";
-import StudentFormNavigation from "./StudentFormNavigation";
+// import StudentFormNavigation from "./StudentFormNavigation";
 
-import StudentInformationStep from "./steps/StudentInformationStep";
-import ParentInformationStep from "./steps/ParentInformationStep";
-import ReviewStudentStep from "./steps/ReviewStudentStep";
+// import StudentInformationStep from "./steps/StudentInformationStep";
+// import ParentInformationStep from "./steps/ParentInformationStep";
+import ReviewStudentStep from "./ReviewStudentStep";
+import StudentInformationStep from "./StudentInformationStep";
+import ParentInformationStep from "./ParentInformationStep";
+import StudentFormNavigation from "./StudentFormNavigation";
+// import ReviewStudentStep from "./steps/ReviewStudentStep";
 
 const StudentForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
