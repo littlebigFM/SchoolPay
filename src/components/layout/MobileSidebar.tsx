@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { NavLink } from "react-router-dom";
@@ -10,6 +11,21 @@ interface MobileSidebarProps {
 }
 
 export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
+    } else {
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    };
+  }, [isOpen]);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -25,7 +41,7 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
 
           {/* Drawer */}
           <motion.aside
-            className="fixed left-0 top-0 z-50 h-screen w-[280px] border-r border-slate-200 bg-white lg:hidden"
+            className="fixed left-0 top-0 z-50 flex h-screen w-[280px] flex-col overflow-hidden border-r border-slate-200 bg-white lg:hidden"
             initial={{ x: -280 }}
             animate={{ x: 0 }}
             exit={{ x: -280 }}
@@ -51,7 +67,7 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
               </button>
             </div>
 
-            <nav className="flex-1 overflow-y-auto p-4">
+            <nav className="flex-1 overflow-y-auto overscroll-contain p-4">
               {navigation.map((group) => (
                 <div key={group.section} className="mb-6">
                   <p className="mb-3 px-4 text-xs font-semibold tracking-wider text-slate-400">
