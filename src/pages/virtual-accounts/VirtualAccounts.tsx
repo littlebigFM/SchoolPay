@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 
 import PageHeader from "@/components/ui/PageHeader";
 
@@ -30,7 +31,12 @@ const VirtualAccounts = () => {
   }, [search, selectedBank, selectedStatus]);
 
   return (
-    <div className="space-y-6">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35 }}
+      className="space-y-6"
+    >
       <PageHeader
         title="Virtual Accounts"
         description="Monitor and manage every virtual account generated for students."
@@ -48,7 +54,7 @@ const VirtualAccounts = () => {
       />
 
       <VirtualAccountTable accounts={filteredAccounts} />
-    </div>
+    </motion.div>
   );
 };
 

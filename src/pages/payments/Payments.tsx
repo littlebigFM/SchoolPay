@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 
 import PageHeader from "@/components/ui/PageHeader";
 
@@ -28,7 +29,12 @@ const Payments = () => {
   }, [search, selectedStatus]);
 
   return (
-    <div className="space-y-8">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35 }}
+      className="space-y-8"
+    >
       <PageHeader
         title="Payments"
         description="Track every payment made into student virtual accounts."
@@ -44,7 +50,7 @@ const Payments = () => {
       />
 
       <PaymentTable payments={filteredPayments} />
-    </div>
+    </motion.div>
   );
 };
 

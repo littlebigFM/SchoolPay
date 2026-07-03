@@ -38,7 +38,7 @@ const StudentStepper = ({ currentStep }: StudentStepperProps) => {
 
                   {index !== steps.length - 1 && (
                     <div
-                      className={`mt-2 h-8 w-[2px] rounded-full ${
+                      className={`mt-2 h-8 w-0.5 rounded-full ${
                         completed ? "bg-emerald-600" : "bg-slate-200"
                       }`}
                     />
@@ -109,7 +109,7 @@ const StudentStepper = ({ currentStep }: StudentStepperProps) => {
                 </div>
 
                 {index !== steps.length - 1 && (
-                  <div className="mx-4 h-[2px] w-20 rounded-full bg-slate-200 lg:w-36">
+                  <div className="mx-4 h-0.5 w-20 rounded-full bg-slate-200 lg:w-36">
                     <motion.div
                       initial={false}
                       animate={{ width: completed ? "100%" : "0%" }}

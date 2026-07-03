@@ -11,6 +11,10 @@ import StudentTable from "@/components/students/StudentTable";
 
 import { students } from "@/mock/students";
 
+import { useNavigate } from "react-router-dom";
+import Button from "@/components/ui/Button";
+import { Plus } from "lucide-react";
+
 const ITEMS_PER_PAGE = 5;
 
 const Students = () => {
@@ -18,6 +22,8 @@ const Students = () => {
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+
+  const navigate = useNavigate();
 
   const filteredStudents = useMemo(() => {
     return students.filter((student) => {
@@ -51,7 +57,13 @@ const Students = () => {
     >
       <PageHeader
         title="Students"
-        description="Manage students and monitor fee payments."
+        description="Manage student records, payments and virtual accounts."
+        action={
+          <Button onClick={() => navigate("/students/new")} className="gap-2">
+            <Plus size={18} />
+            Add Student
+          </Button>
+        }
       />
 
       <StudentStats />
@@ -74,20 +86,15 @@ const Students = () => {
         }}
       />
 
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-slate-500">
-          Showing{" "}
-          <span className="font-semibold text-slate-900">
-            {filteredStudents.length}
-          </span>{" "}
-          of{" "}
-          <span className="font-semibold text-slate-900">
-            {students.length}
-          </span>{" "}
-          students
-        </p>
-      </div>
-
+      <p className="text-sm text-slate-500">
+        Showing{" "}
+        <span className="font-semibold text-slate-900">
+          {filteredStudents.length}
+        </span>{" "}
+        of{" "}
+        <span className="font-semibold text-slate-900">{students.length}</span>{" "}
+        students
+      </p>
       {filteredStudents.length ? (
         <>
           <StudentTable students={paginatedStudents} />
