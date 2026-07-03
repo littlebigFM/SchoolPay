@@ -7,18 +7,25 @@ import { studentSchema } from "@/schemas/studentSchema";
 import type { StudentFormData } from "@/types/studentForm";
 
 import StudentStepper from "./StudentStepper";
-// import StudentFormNavigation from "./StudentFormNavigation";
-
-// import StudentInformationStep from "./steps/StudentInformationStep";
-// import ParentInformationStep from "./steps/ParentInformationStep";
-import ReviewStudentStep from "./ReviewStudentStep";
 import StudentInformationStep from "./StudentInformationStep";
 import ParentInformationStep from "./ParentInformationStep";
+import ReviewStudentStep from "./ReviewStudentStep";
 import StudentFormNavigation from "./StudentFormNavigation";
-// import ReviewStudentStep from "./steps/ReviewStudentStep";
+import LoadingOverlay from "@/components/feedback/LoadingOverlay";
+import SuccessModal from "@/components/dialogs/SuccessModal";
 
 const StudentForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
+
+  const [loading, setLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const [successData, setSuccessData] = useState({
+    studentId: "1",
+    admissionNumber: "SP00002",
+    accountNumber: "7420959563",
+    bankName: "Nombank MFB",
+  });
 
   const methods = useForm<StudentFormData>({
     resolver: zodResolver(studentSchema),
@@ -48,6 +55,7 @@ const StudentForm = () => {
   const { trigger, handleSubmit } = methods;
 
   const nextStep = async () => {
+    console.log("NEXT");
     let fields: (keyof StudentFormData)[] = [];
 
     if (currentStep === 0) {
@@ -76,43 +84,50 @@ const StudentForm = () => {
     setCurrentStep((prev) => prev - 1);
   };
 
-  const onSubmit = (data: StudentFormData) => {
+  const handleAddAnother = () => {
+    methods.reset();
+
+    setCurrentStep(0);
+
+    setShowSuccess(false);
+  };
+
+  const onSubmit = async (data: StudentFormData) => {
+    console.log("SUBMIT");
     console.log(data);
 
-    // TODO:
-    // create student
-    // upload image
-    // generate virtual account
+    setLoading(true);
+
+    // Mock API call
+    setTimeout(() => {
+      setLoading(false);
+
+      setSuccessData({
+        studentId: "1",
+        admissionNumber: "SP00002",
+        accountNumber: "7420959563",
+        bankName: "Nombank MFB",
+      });
+
+      setShowSuccess(true);
+    }, 1500);
   };
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      <form className="space-y-8">
         <StudentStepper currentStep={currentStep} />
 
         <AnimatePresence mode="wait">
           <motion.div
             key={currentStep}
-            initial={{
-              opacity: 0,
-              x: 40,
-            }}
-            animate={{
-              opacity: 1,
-              x: 0,
-            }}
-            exit={{
-              opacity: 0,
-              x: -40,
-            }}
-            transition={{
-              duration: 0.25,
-            }}
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.25 }}
           >
             {currentStep === 0 && <StudentInformationStep />}
-
             {currentStep === 1 && <ParentInformationStep />}
-
             {currentStep === 2 && <ReviewStudentStep />}
           </motion.div>
         </AnimatePresence>
@@ -122,8 +137,25 @@ const StudentForm = () => {
           totalSteps={3}
           onNext={nextStep}
           onPrevious={previousStep}
+          onSubmit={handleSubmit(onSubmit)}
         />
       </form>
+
+      <LoadingOverlay
+        open={loading}
+        title="Creating Student..."
+        description="Please wait while we create the student record and generate a virtual account."
+      />
+
+      <SuccessModal
+        open={showSuccess}
+        onOpenChange={setShowSuccess}
+        onAddAnother={handleAddAnother}
+        studentId={successData.studentId}
+        admissionNumber={successData.admissionNumber}
+        accountNumber={successData.accountNumber}
+        bankName={successData.bankName}
+      />
     </FormProvider>
   );
 };

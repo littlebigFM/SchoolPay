@@ -5,6 +5,7 @@ interface StudentFormNavigationProps {
   totalSteps: number;
   onNext: () => void;
   onPrevious: () => void;
+  onSubmit: () => void;
 }
 
 const StudentFormNavigation = ({
@@ -12,6 +13,7 @@ const StudentFormNavigation = ({
   totalSteps,
   onNext,
   onPrevious,
+  onSubmit,
 }: StudentFormNavigationProps) => {
   const isLastStep = currentStep === totalSteps - 1;
 
@@ -27,7 +29,9 @@ const StudentFormNavigation = ({
 
       <div>
         {isLastStep ? (
-          <Button type="submit">Create Student</Button>
+          <Button type="button" onClick={onSubmit}>
+            Create Student
+          </Button>
         ) : (
           <Button type="button" onClick={onNext}>
             Next
