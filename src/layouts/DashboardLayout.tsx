@@ -6,8 +6,12 @@ import MobileSidebar from "@/components/layout/MobileSidebar";
 import Navbar from "@/components/layout/Navbar";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 
+import useLockBodyScroll from "@/hooks/useLockBodyScroll";
+
 export default function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  useLockBodyScroll(isSidebarOpen);
 
   return (
     <div className="min-h-screen bg-slate-50">
