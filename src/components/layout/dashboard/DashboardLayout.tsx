@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
 
-import Sidebar from "@/components/layout/Sidebar";
-import MobileSidebar from "@/components/layout/MobileSidebar";
-import Navbar from "@/components/layout/Navbar";
+import Sidebar from "@/components/layout/sidebar/Sidebar";
+import MobileSidebar from "@/components/layout/sidebar/MobileSidebar";
+import Navbar from "@/components/layout/navbar/Navbar";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 
 import useLockBodyScroll from "@/hooks/useLockBodyScroll";
