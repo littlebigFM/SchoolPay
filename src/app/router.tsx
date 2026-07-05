@@ -7,7 +7,7 @@ import Students from "../pages/students/Students";
 import StudentProfile from "@/pages/students/StudentProfile";
 // import StudentDetails from "../pages/students/StudentDetails";
 import VirtualAccounts from "../pages/virtual-accounts/VirtualAccounts";
-// import Invoices from "../pages/invoices/Invoices";
+import Invoices from "../pages/invoices/Invoices";
 import Payments from "../pages/payments/Payments";
 import AddStudent from "@/pages/students/AddStudent";
 // import Reconciliation from "../pages/reconciliation/Reconciliation";
@@ -46,10 +46,10 @@ export const router = createBrowserRouter([
         path: "virtual-accounts",
         element: <VirtualAccounts />,
       },
-      //   {
-      //     path: "invoices",
-      //     element: <Invoices />,
-      //   },
+      {
+        path: "invoices",
+        element: <Invoices />,
+      },
       {
         path: "payments",
         element: <Payments />,

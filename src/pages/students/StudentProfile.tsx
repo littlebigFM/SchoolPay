@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+// import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
@@ -11,19 +11,26 @@ import StudentInfoCard from "@/components/students/profile/StudentInfoCard";
 import ParentInfoCard from "@/components/students/profile/ParentInfoCard";
 import FeeSummaryCard from "@/components/students/profile/FeeSummaryCard";
 
-import { students } from "@/mock/students";
+// import { students } from "@/mock/students";
 import PaymentHistoryCard from "@/components/students/profile/PaymentHistoryCard";
 import PaymentTimeline from "@/components/students/profile/PaymentTimeline";
+
+import { useStudent } from "@/hooks/useStudent";
 
 const StudentProfile = () => {
   const { id } = useParams();
 
-  const student = useMemo(
-    () => students.find((student) => student.id === id),
-    [id],
-  );
+  const { student, loading, error } = useStudent(id);
 
-  if (!student) {
+  if (loading) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <p className="text-slate-500">Loading student...</p>
+      </div>
+    );
+  }
+
+  if (error || !student) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}

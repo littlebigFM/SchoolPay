@@ -24,7 +24,7 @@ export default function DashboardLayout() {
         onClose={() => setIsSidebarOpen(false)}
       />
 
-      <div className="lg:pl-[280px]">
+      <div className="lg:pl-70">
         <Navbar onMenuClick={() => setIsSidebarOpen(true)} />
 
         <main className="p-4 md:p-6">
