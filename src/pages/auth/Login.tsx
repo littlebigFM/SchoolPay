@@ -54,7 +54,7 @@ const Login = () => {
   };
 
   return (
-    <div className="grid min-h-screen lg:grid-cols-2">
+    <div className="grid lg:min-h-screen lg:grid-cols-2">
       {/* LEFT */}
 
       <div className="hidden flex-col justify-between bg-gradient-to-br from-violet-700 via-violet-600 to-indigo-700 p-14 text-white lg:flex">

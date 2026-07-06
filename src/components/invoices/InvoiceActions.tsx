@@ -1,13 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  Bell,
-  FileText,
-  MoreHorizontal,
-  Pencil,
-  Trash2,
-  User,
-} from "lucide-react";
+import { Bell, FileText, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 
 import Button from "@/components/ui/Button";
 import Dropdown from "@/components/ui/Dropdown";
@@ -23,34 +15,25 @@ interface InvoiceActionsProps {
 }
 
 const InvoiceActions = ({ invoice, onDelete }: InvoiceActionsProps) => {
-  const navigate = useNavigate();
-
-  const [comingSoon, setComingSoon] = useState<"download" | "reminder" | null>(
-    null,
-  );
+  const [comingSoon, setComingSoon] = useState<
+    "view" | "download" | "edit" | "reminder" | null
+  >(null);
 
   return (
     <>
       <Dropdown
         trigger={
-          <Button variant="ghost" size="sm">
+          <Button variant="ghost" size="md">
             <MoreHorizontal size={18} />
           </Button>
         }
       >
         <DropdownItem
           icon={FileText}
-          onClick={() => navigate(`/students/${invoice.studentId}`)}
+          onClick={() => requestAnimationFrame(() => setComingSoon("view"))}
         >
           View Invoice
         </DropdownItem>
-
-        {/* <DropdownItem
-          icon={User}
-          onClick={() => navigate(`/students/${invoice.studentId}`)}
-        >
-          View Student
-        </DropdownItem> */}
 
         <DropdownItem
           icon={FileText}
@@ -68,7 +51,7 @@ const InvoiceActions = ({ invoice, onDelete }: InvoiceActionsProps) => {
 
         <DropdownItem
           icon={Pencil}
-          onClick={() => navigate(`/invoices/${invoice.id}/edit`)}
+          onClick={() => requestAnimationFrame(() => setComingSoon("edit"))}
         >
           Edit Invoice
         </DropdownItem>
@@ -76,11 +59,7 @@ const InvoiceActions = ({ invoice, onDelete }: InvoiceActionsProps) => {
         <DropdownItem
           destructive
           icon={Trash2}
-          onClick={() => {
-            requestAnimationFrame(() => {
-              onDelete(invoice);
-            });
-          }}
+          onClick={() => requestAnimationFrame(() => onDelete(invoice))}
         >
           Delete Invoice
         </DropdownItem>
@@ -89,11 +68,23 @@ const InvoiceActions = ({ invoice, onDelete }: InvoiceActionsProps) => {
       <ComingSoonModal
         open={comingSoon !== null}
         onOpenChange={() => setComingSoon(null)}
-        title={comingSoon === "download" ? "Download Invoice" : "Send Reminder"}
+        title={
+          comingSoon === "view"
+            ? "View Invoice"
+            : comingSoon === "download"
+              ? "Download Invoice"
+              : comingSoon === "edit"
+                ? "Edit Invoice"
+                : "Send Reminder"
+        }
         description={
-          comingSoon === "download"
-            ? "Invoice download will be available after backend integration."
-            : "Reminder notifications will be available after backend integration."
+          comingSoon === "view"
+            ? "Invoice details will be available after backend integration."
+            : comingSoon === "download"
+              ? "Invoice download will be available after backend integration."
+              : comingSoon === "edit"
+                ? "Invoice editing will be available after backend integration."
+                : "Reminder notifications will be available after backend integration."
         }
       />
     </>

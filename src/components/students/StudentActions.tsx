@@ -27,9 +27,9 @@ interface StudentActionsProps {
 const StudentActions = ({ student, onDelete }: StudentActionsProps) => {
   const navigate = useNavigate();
 
-  const [comingSoon, setComingSoon] = useState<"receipt" | "reminder" | null>(
-    null,
-  );
+  const [comingSoon, setComingSoon] = useState<
+    "payments" | "receipt" | "reminder" | null
+  >(null);
 
   return (
     <>
@@ -49,7 +49,11 @@ const StudentActions = ({ student, onDelete }: StudentActionsProps) => {
 
         <DropdownItem
           icon={CreditCard}
-          onClick={() => navigate(`/students/${student.id}/payments`)}
+          onClick={() =>
+            requestAnimationFrame(() => {
+              setComingSoon("payments");
+            })
+          }
         >
           Payment History
         </DropdownItem>
@@ -99,11 +103,19 @@ const StudentActions = ({ student, onDelete }: StudentActionsProps) => {
       <ComingSoonModal
         open={comingSoon !== null}
         onOpenChange={() => setComingSoon(null)}
-        title={comingSoon === "receipt" ? "Generate Receipt" : "Send Reminder"}
+        title={
+          comingSoon === "payments"
+            ? "Payment History"
+            : comingSoon === "receipt"
+              ? "Generate Receipt"
+              : "Send Reminder"
+        }
         description={
-          comingSoon === "receipt"
-            ? "Receipt generation will be available after backend integration."
-            : "Reminder notifications will be available after backend integration."
+          comingSoon === "payments"
+            ? "Payment history will be available after backend integration."
+            : comingSoon === "receipt"
+              ? "Receipt generation will be available after backend integration."
+              : "Reminder notifications will be available after backend integration."
         }
       />
     </>
