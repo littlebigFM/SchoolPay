@@ -13,9 +13,10 @@ import type { Invoice } from "@/types/invoice";
 
 interface InvoiceMobileCardProps {
   invoice: Invoice;
+  onDelete: (invoice: Invoice) => void;
 }
 
-const InvoiceMobileCard = ({ invoice }: InvoiceMobileCardProps) => {
+const InvoiceMobileCard = ({ invoice, onDelete }: InvoiceMobileCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -114,10 +115,7 @@ const InvoiceMobileCard = ({ invoice }: InvoiceMobileCardProps) => {
                     View Invoice
                   </button>
 
-                  <InvoiceActions
-                    invoiceId={invoice.id}
-                    studentId={invoice.studentId}
-                  />
+                  <InvoiceActions invoice={invoice} onDelete={onDelete} />
                 </div>
               </div>
             </motion.div>

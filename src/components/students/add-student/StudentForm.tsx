@@ -14,7 +14,13 @@ import StudentFormNavigation from "./StudentFormNavigation";
 import LoadingOverlay from "@/components/feedback/LoadingOverlay";
 import SuccessModal from "@/components/dialogs/SuccessModal";
 
-const StudentForm = () => {
+import type { Student } from "@/types/student";
+
+interface StudentFormProps {
+  student?: Student;
+}
+
+const StudentForm = ({ student }: StudentFormProps) => {
   const [currentStep, setCurrentStep] = useState(0);
 
   const [loading, setLoading] = useState(false);
@@ -31,21 +37,23 @@ const StudentForm = () => {
     resolver: zodResolver(studentSchema),
     mode: "onChange",
     defaultValues: {
-      class_id: "",
+      class_id: student?.class ?? "",
 
-      first_name: "",
+      first_name: student?.firstName ?? "",
       middle_name: "",
-      last_name: "",
+      last_name: student?.lastName ?? "",
 
-      gender: "",
+      gender: student?.gender.toUpperCase() ?? "",
+
       date_of_birth: "",
 
       email: "",
+
       phone: "",
 
-      parent_name: "",
+      parent_name: student?.parentName ?? "",
       parent_email: "",
-      parent_phone: "",
+      parent_phone: student?.parentPhone ?? "",
       parent_address: "",
 
       photo: undefined,
@@ -109,6 +117,11 @@ const StudentForm = () => {
         bankName: "Nombank MFB",
       });
 
+      if (student) {
+        // Tomorrow this becomes an API PUT request.
+        return;
+      }
+
       setShowSuccess(true);
     }, 1500);
   };
@@ -138,13 +151,18 @@ const StudentForm = () => {
           onNext={nextStep}
           onPrevious={previousStep}
           onSubmit={handleSubmit(onSubmit)}
+          isEdit={Boolean(student)}
         />
       </form>
 
       <LoadingOverlay
         open={loading}
-        title="Creating Student..."
-        description="Please wait while we create the student record and generate a virtual account."
+        title={student ? "Updating Student..." : "Creating Student..."}
+        description={
+          student
+            ? "Please wait while we update the student record."
+            : "Please wait while we create the student record and generate a virtual account."
+        }
       />
 
       <SuccessModal

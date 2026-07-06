@@ -10,6 +10,7 @@ const RememberMe = ({ checked, onChange }: RememberMeProps) => {
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
+        className="h-4 w-4 rounded border-slate-300 text-violet-600 focus:ring-violet-500"
       />
       Remember me
     </label>

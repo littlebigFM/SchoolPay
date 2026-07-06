@@ -38,9 +38,9 @@ const VirtualAccountActions = ({
         View Details
       </DropdownItem>
 
-      <DropdownItem icon={UserRound} onClick={onViewStudent}>
+      {/* <DropdownItem icon={UserRound} onClick={onViewStudent}>
         View Student
-      </DropdownItem>
+      </DropdownItem> */}
 
       <DropdownItem icon={isCopied ? Check : Copy} onClick={onCopyAccount}>
         {isCopied ? "Copied" : "Copy Account Number"}

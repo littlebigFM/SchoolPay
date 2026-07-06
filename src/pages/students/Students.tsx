@@ -1,23 +1,32 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import { Plus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 import PageHeader from "@/components/ui/PageHeader";
 import Pagination from "@/components/ui/Pagination";
 import EmptyState from "@/components/ui/EmptyState";
+import Button from "@/components/ui/Button";
 
 import StudentFilters from "@/components/students/StudentFilters";
 import StudentStats from "@/components/students/StudentStats";
 import StudentTable from "@/components/students/StudentTable";
 
-import { students } from "@/mock/students";
+import DeleteModal from "@/components/dialogs/DeleteModal";
 
-import { useNavigate } from "react-router-dom";
-import Button from "@/components/ui/Button";
-import { Plus } from "lucide-react";
+import { students as mockStudents } from "@/mock/students";
 
 const ITEMS_PER_PAGE = 5;
 
 const Students = () => {
+  const [students, setStudents] = useState(mockStudents);
+
+  const [studentToDelete, setStudentToDelete] = useState<
+    (typeof mockStudents)[number] | null
+  >(null);
+
+  const [deleting, setDeleting] = useState(false);
+
   const [search, setSearch] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
@@ -38,7 +47,7 @@ const Students = () => {
 
       return matchesSearch && matchesClass && matchesStatus;
     });
-  }, [search, selectedClass, selectedStatus]);
+  }, [students, search, selectedClass, selectedStatus]);
 
   const totalPages = Math.ceil(filteredStudents.length / ITEMS_PER_PAGE);
 
@@ -47,6 +56,22 @@ const Students = () => {
 
     return filteredStudents.slice(start, start + ITEMS_PER_PAGE);
   }, [filteredStudents, currentPage]);
+
+  const handleDeleteStudent = async () => {
+    if (!studentToDelete) return;
+
+    setDeleting(true);
+
+    setTimeout(() => {
+      setStudents((prev) =>
+        prev.filter((student) => student.id !== studentToDelete.id),
+      );
+
+      setDeleting(false);
+
+      setStudentToDelete(null);
+    }, 1000);
+  };
 
   return (
     <motion.div
@@ -66,7 +91,7 @@ const Students = () => {
         }
       />
 
-      <StudentStats />
+      <StudentStats students={students} />
 
       <StudentFilters
         search={search}
@@ -95,9 +120,13 @@ const Students = () => {
         <span className="font-semibold text-slate-900">{students.length}</span>{" "}
         students
       </p>
+
       {filteredStudents.length ? (
         <>
-          <StudentTable students={paginatedStudents} />
+          <StudentTable
+            students={paginatedStudents}
+            onDelete={setStudentToDelete}
+          />
 
           {totalPages > 1 && (
             <Pagination
@@ -113,6 +142,18 @@ const Students = () => {
           description="Try changing your search or filters."
         />
       )}
+
+      <DeleteModal
+        open={!!studentToDelete}
+        onOpenChange={(open) => {
+          if (!open) setStudentToDelete(null);
+        }}
+        title="Delete Student"
+        itemName={studentToDelete?.fullName ?? ""}
+        itemType="student"
+        onConfirm={handleDeleteStudent}
+        loading={deleting}
+      />
     </motion.div>
   );
 };

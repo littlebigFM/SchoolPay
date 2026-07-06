@@ -1,17 +1,3 @@
-// import { MoreHorizontal } from "lucide-react";
-
-// import Button from "@/components/ui/Button";
-
-// const StudentActions = () => {
-//   return (
-//     <Button variant="ghost" size="sm" className="p-2">
-//       <MoreHorizontal size={18} />
-//     </Button>
-//   );
-// };
-
-// export default StudentActions;
-
 import { useNavigate } from "react-router-dom";
 import {
   Bell,
@@ -27,58 +13,96 @@ import Button from "@/components/ui/Button";
 import Dropdown from "@/components/ui/Dropdown";
 import DropdownItem from "@/components/ui/DropdownItem";
 
+import type { Student } from "@/types/student";
+
+import { useState } from "react";
+
+import ComingSoonModal from "@/components/dialogs/ComingSoonModal";
+
 interface StudentActionsProps {
-  studentId: string;
+  student: Student;
+  onDelete: (student: Student) => void;
 }
 
-const StudentActions = ({ studentId }: StudentActionsProps) => {
+const StudentActions = ({ student, onDelete }: StudentActionsProps) => {
   const navigate = useNavigate();
 
+  const [comingSoon, setComingSoon] = useState<"receipt" | "reminder" | null>(
+    null,
+  );
+
   return (
-    <Dropdown
-      trigger={
-        <Button variant="ghost" size="md">
-          <MoreHorizontal size={18} />
-        </Button>
-      }
-    >
-      <DropdownItem
-        icon={User}
-        onClick={() => navigate(`/students/${studentId}`)}
+    <>
+      <Dropdown
+        trigger={
+          <Button variant="ghost" size="sm">
+            <MoreHorizontal size={18} />
+          </Button>
+        }
       >
-        View Profile
-      </DropdownItem>
+        <DropdownItem
+          icon={User}
+          onClick={() => navigate(`/students/${student.id}`)}
+        >
+          View Profile
+        </DropdownItem>
 
-      <DropdownItem
-        icon={CreditCard}
-        onClick={() => navigate(`/students/${studentId}/payments`)}
-      >
-        Payment History
-      </DropdownItem>
+        <DropdownItem
+          icon={CreditCard}
+          onClick={() => navigate(`/students/${student.id}/payments`)}
+        >
+          Payment History
+        </DropdownItem>
 
-      <DropdownItem
-        icon={FileText}
-        onClick={() => console.log("Generate Receipt")}
-      >
-        Generate Receipt
-      </DropdownItem>
+        <DropdownItem
+          icon={FileText}
+          onClick={() => {
+            requestAnimationFrame(() => {
+              setComingSoon("receipt");
+            });
+          }}
+        >
+          Generate Receipt
+        </DropdownItem>
 
-      <DropdownItem icon={Bell} onClick={() => console.log("Send Reminder")}>
-        Send Reminder
-      </DropdownItem>
+        <DropdownItem
+          icon={Bell}
+          onClick={() => {
+            requestAnimationFrame(() => {
+              setComingSoon("reminder");
+            });
+          }}
+        >
+          Send Reminder
+        </DropdownItem>
 
-      <DropdownItem icon={Pencil} onClick={() => console.log("Edit Student")}>
-        Edit Student
-      </DropdownItem>
+        <DropdownItem
+          icon={Pencil}
+          onClick={() => navigate(`/students/${student.id}/edit`)}
+        >
+          Edit Student
+        </DropdownItem>
 
-      <DropdownItem
-        destructive
-        icon={Trash2}
-        onClick={() => console.log("Delete Student")}
-      >
-        Delete Student
-      </DropdownItem>
-    </Dropdown>
+        <DropdownItem
+          destructive
+          icon={Trash2}
+          onClick={() => onDelete(student)}
+        >
+          Delete Student
+        </DropdownItem>
+      </Dropdown>
+
+      <ComingSoonModal
+        open={comingSoon !== null}
+        onOpenChange={() => setComingSoon(null)}
+        title={comingSoon === "receipt" ? "Generate Receipt" : "Send Reminder"}
+        description={
+          comingSoon === "receipt"
+            ? "Receipt generation will be available after backend integration."
+            : "Reminder notifications will be available after backend integration."
+        }
+      />
+    </>
   );
 };
 

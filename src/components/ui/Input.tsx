@@ -4,14 +4,23 @@ import type { InputHTMLAttributes } from "react";
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
+  required?: boolean;
 }
 
-const Input = ({ label, error, className, id, ...props }: InputProps) => {
+const Input = ({
+  label,
+  error,
+  className,
+  id,
+  required,
+  ...props
+}: InputProps) => {
   return (
     <div className="space-y-2">
       {label && (
         <label htmlFor={id} className="text-sm font-medium text-slate-700">
           {label}
+          {required && <span className="ml-1 text-rose-500">*</span>}
         </label>
       )}
 

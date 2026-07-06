@@ -1,46 +1,57 @@
-import { GraduationCap, Wallet, AlertCircle, CheckCircle } from "lucide-react";
+import { CheckCircle2, Users, Wallet, Clock3 } from "lucide-react";
+
 import StatCard from "@/components/ui/StatCard";
-import { studentStats } from "@/mock/students";
 
-const stats = [
-  {
-    title: "Total Students",
-    value: studentStats.totalStudents.toString(),
-    trend: "Registered",
-    icon: GraduationCap,
-  },
-  {
-    title: "Expected Revenue",
-    value: `₦${studentStats.expectedRevenue.toLocaleString()}`,
-    trend: "Current Term",
-    icon: Wallet,
-  },
-  {
-    title: "Outstanding",
-    value: `₦${studentStats.outstandingRevenue.toLocaleString()}`,
-    trend: `${studentStats.pendingStudents} Pending`,
-    icon: AlertCircle,
-  },
-  {
-    title: "Paid Students",
-    value: studentStats.paidStudents.toString(),
-    trend: "Fully Paid",
-    icon: CheckCircle,
-  },
-];
+import type { Student } from "@/types/student";
 
-export default function StudentStats() {
+interface StudentStatsProps {
+  students: Student[];
+}
+
+const StudentStats = ({ students }: StudentStatsProps) => {
+  const totalStudents = students.length;
+
+  const expectedRevenue = students.reduce(
+    (sum, student) => sum + student.expectedFee,
+    0,
+  );
+
+  const outstandingRevenue = students.reduce(
+    (sum, student) => sum + student.outstandingBalance,
+    0,
+  );
+
+  const paidStudents = students.filter(
+    (student) => student.paymentStatus === "PAID",
+  ).length;
+
   return (
-    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      {stats.map((item) => (
-        <StatCard
-          key={item.title}
-          title={item.title}
-          value={item.value}
-          trend={item.trend}
-          icon={item.icon}
-        />
-      ))}
+    <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+      <StatCard
+        title="Students"
+        value={totalStudents.toString()}
+        icon={Users}
+      />
+
+      <StatCard
+        title="Expected Revenue"
+        value={`₦${expectedRevenue.toLocaleString()}`}
+        icon={Wallet}
+      />
+
+      <StatCard
+        title="Outstanding"
+        value={`₦${outstandingRevenue.toLocaleString()}`}
+        icon={Clock3}
+      />
+
+      <StatCard
+        title="Paid Students"
+        value={paidStudents.toString()}
+        icon={CheckCircle2}
+      />
     </div>
   );
-}
+};
+
+export default StudentStats;

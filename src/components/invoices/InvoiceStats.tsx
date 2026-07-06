@@ -1,33 +1,53 @@
-import { FileText, Wallet, Clock3, CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Clock3, FileText, Wallet } from "lucide-react";
 
 import StatCard from "@/components/ui/StatCard";
 
-import { invoiceStats } from "@/mock/invoices";
+import type { Invoice } from "@/types/invoice";
 
-const InvoiceStats = () => {
+interface InvoiceStatsProps {
+  invoices: Invoice[];
+}
+
+const InvoiceStats = ({ invoices }: InvoiceStatsProps) => {
+  const totalInvoices = invoices.length;
+
+  const totalExpected = invoices.reduce(
+    (sum, invoice) => sum + invoice.amount,
+    0,
+  );
+
+  const totalOutstanding = invoices.reduce(
+    (sum, invoice) => sum + invoice.outstandingBalance,
+    0,
+  );
+
+  const paidInvoices = invoices.filter(
+    (invoice) => invoice.status === "PAID",
+  ).length;
+
   return (
     <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
       <StatCard
-        title="Total Invoices"
-        value={invoiceStats.totalInvoices.toString()}
+        title="Invoices"
+        value={totalInvoices.toString()}
         icon={FileText}
       />
 
       <StatCard
         title="Expected Revenue"
-        value={`₦${invoiceStats.totalExpected.toLocaleString()}`}
+        value={`₦${totalExpected.toLocaleString()}`}
         icon={Wallet}
       />
 
       <StatCard
         title="Outstanding"
-        value={`₦${invoiceStats.totalOutstanding.toLocaleString()}`}
+        value={`₦${totalOutstanding.toLocaleString()}`}
         icon={Clock3}
       />
 
       <StatCard
         title="Paid Invoices"
-        value={invoiceStats.paidInvoices.toString()}
+        value={paidInvoices.toString()}
         icon={CheckCircle2}
       />
     </div>

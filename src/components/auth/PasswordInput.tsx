@@ -21,7 +21,7 @@ const PasswordInput = ({ label, registration, error }: PasswordInputProps) => {
         <input
           {...registration}
           type={showPassword ? "text" : "password"}
-          className={`w-full rounded-xl border py-3 pl-4 pr-12 outline-none transition
+          className={`w-full rounded-xl border px-4 py-3 pr-12 outline-none transition
 
           ${
             error

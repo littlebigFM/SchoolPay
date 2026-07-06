@@ -49,6 +49,11 @@ export const router = createBrowserRouter([
       },
 
       {
+        path: "students/:id/edit",
+        element: <AddStudent />,
+      },
+
+      {
         path: "students/:id",
         element: <StudentProfile />,
       },

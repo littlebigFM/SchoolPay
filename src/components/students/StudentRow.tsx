@@ -9,9 +9,10 @@ import type { Student } from "@/types/student";
 
 interface StudentRowProps {
   student: Student;
+  onDelete: (student: Student) => void;
 }
 
-const StudentRow = ({ student }: StudentRowProps) => {
+const StudentRow = ({ student, onDelete }: StudentRowProps) => {
   return (
     <motion.div
       whileHover={{ y: -2 }}
@@ -19,7 +20,7 @@ const StudentRow = ({ student }: StudentRowProps) => {
       className="grid grid-cols-[2.2fr_0.8fr_1.3fr_1fr_1fr_1fr_0.9fr_60px] items-center gap-4 rounded-2xl border border-slate-200 bg-white px-6 py-5 shadow-sm transition-shadow hover:shadow-md"
     >
       {/* Student */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         <Avatar initials={student.initials} />
 
         <div>
@@ -71,7 +72,7 @@ const StudentRow = ({ student }: StudentRowProps) => {
 
       {/* Action */}
       <div className="flex justify-end">
-        <StudentActions studentId={student.id} />
+        <StudentActions student={student} onDelete={onDelete} />
       </div>
     </motion.div>
   );

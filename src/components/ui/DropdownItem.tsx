@@ -23,9 +23,7 @@ const DropdownItem = ({
   return (
     <DropdownMenu.Item
       disabled={disabled}
-      onSelect={(event) => {
-        event.preventDefault();
-
+      onSelect={() => {
         if (!disabled && onClick) {
           onClick();
         }

@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 import type { ReactNode } from "react";
 
@@ -23,6 +24,18 @@ const Modal = ({
   size = "md",
   showCloseButton = true,
 }: ModalProps) => {
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (open) {
+      previousFocusRef.current = document.activeElement as HTMLElement;
+    } else if (previousFocusRef.current && previousFocusRef.current.focus) {
+      // Restore focus when modal closes
+      setTimeout(() => {
+        previousFocusRef.current?.focus();
+      }, 0);
+    }
+  }, [open]);
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <AnimatePresence>

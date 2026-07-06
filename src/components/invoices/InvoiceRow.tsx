@@ -9,9 +9,10 @@ import type { Invoice } from "@/types/invoice";
 
 interface InvoiceRowProps {
   invoice: Invoice;
+  onDelete: (invoice: Invoice) => void;
 }
 
-const InvoiceRow = ({ invoice }: InvoiceRowProps) => {
+const InvoiceRow = ({ invoice, onDelete }: InvoiceRowProps) => {
   return (
     <motion.div
       whileHover={{ y: -2 }}
@@ -56,7 +57,7 @@ const InvoiceRow = ({ invoice }: InvoiceRowProps) => {
 
       {/* Action */}
       <div className="flex justify-end">
-        <InvoiceActions invoiceId={invoice.id} studentId={invoice.studentId} />
+        <InvoiceActions invoice={invoice} onDelete={onDelete} />
       </div>
     </motion.div>
   );

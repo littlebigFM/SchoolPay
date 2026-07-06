@@ -13,9 +13,10 @@ import type { Student } from "@/types/student";
 
 interface StudentMobileCardProps {
   student: Student;
+  onDelete: (student: Student) => void;
 }
 
-const StudentMobileCard = ({ student }: StudentMobileCardProps) => {
+const StudentMobileCard = ({ student, onDelete }: StudentMobileCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -123,7 +124,7 @@ const StudentMobileCard = ({ student }: StudentMobileCardProps) => {
                     View Profile
                   </button>
 
-                  <StudentActions studentId={student.id} />
+                  <StudentActions student={student} onDelete={onDelete} />
                 </div>
               </div>
             </motion.div>
