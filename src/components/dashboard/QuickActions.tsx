@@ -10,10 +10,26 @@ const QuickActions = ({ actions }: QuickActionsProps) => {
   const navigate = useNavigate();
 
   const handleAction = (id: string) => {
-    if (id === "student") return navigate("/students/new");
+    switch (id) {
+      case "student":
+        navigate("/students/new");
+        break;
 
-    // fallback: log unhandled actions for now
-    console.warn("Unhandled quick action:", id);
+      case "payment":
+        navigate("/payments");
+        break;
+
+      case "invoice":
+        navigate("/invoices");
+        break;
+
+      case "reconciliation":
+        navigate("/reconciliation");
+        break;
+
+      default:
+        navigate("/coming-soon");
+    }
   };
 
   return (

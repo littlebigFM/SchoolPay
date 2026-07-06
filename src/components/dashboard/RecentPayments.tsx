@@ -8,11 +8,15 @@ import StatusBadge from "@/components/ui/StatusBadge";
 import type { RecentPayment } from "@/types/dashboard";
 import Button from "../ui/Button";
 
+import { useNavigate } from "react-router-dom";
+
 interface RecentPaymentsProps {
   payments: RecentPayment[];
 }
 const RecentPayments = ({ payments }: RecentPaymentsProps) => {
   const [expandedPayment, setExpandedPayment] = useState<number | null>(null);
+
+  const navigate = useNavigate();
 
   const togglePayment = (id: number) => {
     setExpandedPayment((current) => (current === id ? null : id));
@@ -23,7 +27,9 @@ const RecentPayments = ({ payments }: RecentPaymentsProps) => {
       <div className="flex items-center justify-between border-b border-slate-100 px-6 py-5">
         <h2 className="text-lg font-semibold">Recent Payments</h2>
 
-        <Button variant="primary">View all →</Button>
+        <Button variant="primary" onClick={() => navigate("/payments")}>
+          View all →
+        </Button>
       </div>
 
       {/* ================= Desktop Table ================= */}

@@ -78,7 +78,7 @@ const Login = () => {
 
       {/* RIGHT */}
 
-      <div className="flex lg:items-center justify-center py-6 px-8">
+      <div className="flex lg:items-center justify-center p-8">
         <div className="w-full max-w-md">
           <AuthLogo />
 

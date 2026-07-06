@@ -10,6 +10,7 @@ import PaymentActions from "./PaymentActions";
 import PaymentStatusBadge from "./PaymentStatusBadge";
 
 import type { Payment } from "@/types/payment";
+import ComingSoonModal from "@/components/dialogs/ComingSoonModal";
 
 interface PaymentMobileCardProps {
   payment: Payment;
@@ -17,6 +18,7 @@ interface PaymentMobileCardProps {
 
 const PaymentMobileCard = ({ payment }: PaymentMobileCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [comingSoon, setComingSoon] = useState<"view" | null>(null);
 
   const copyReference = async () => {
     await navigator.clipboard.writeText(payment.transactionReference);
@@ -121,7 +123,16 @@ const PaymentMobileCard = ({ payment }: PaymentMobileCardProps) => {
                 </div>
 
                 <div className="mt-6 flex gap-3">
-                  <Button className="flex-1">View Payment</Button>
+                  <Button
+                    className="flex-1"
+                    onClick={() =>
+                      requestAnimationFrame(() => {
+                        setComingSoon("view");
+                      })
+                    }
+                  >
+                    View Payment
+                  </Button>
 
                   <PaymentActions paymentId={payment.id} />
                 </div>
@@ -129,6 +140,13 @@ const PaymentMobileCard = ({ payment }: PaymentMobileCardProps) => {
             </motion.div>
           )}
         </AnimatePresence>
+
+        <ComingSoonModal
+          open={comingSoon !== null}
+          onOpenChange={() => setComingSoon(null)}
+          title="View Payment"
+          description="Payment details will be available after backend integration."
+        />
       </Card>
     </motion.div>
   );

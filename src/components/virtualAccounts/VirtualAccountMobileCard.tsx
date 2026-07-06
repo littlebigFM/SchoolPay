@@ -10,6 +10,7 @@ import VirtualAccountActions from "./VirtualAccountActions";
 import VirtualAccountStatusBadge from "./VirtualAccountStatusBadge";
 
 import type { VirtualAccount } from "@/types/virtualAccount";
+import ComingSoonModal from "../dialogs/ComingSoonModal";
 
 interface VirtualAccountMobileCardProps {
   account: VirtualAccount;
@@ -37,6 +38,10 @@ const VirtualAccountMobileCard = ({
       console.error(error);
     }
   };
+
+  const [comingSoon, setComingSoon] = useState<"details" | "regenerate" | null>(
+    null,
+  );
 
   return (
     <motion.div layout transition={{ duration: 0.25 }}>
@@ -145,8 +150,16 @@ const VirtualAccountMobileCard = ({
                 </div>
 
                 <div className="mt-6 flex gap-3">
-                  <Button className="flex-1">View Details</Button>
-
+                  <Button
+                    className="flex-1"
+                    onClick={() =>
+                      requestAnimationFrame(() => {
+                        setComingSoon("details");
+                      })
+                    }
+                  >
+                    View Details
+                  </Button>
                   <VirtualAccountActions
                     onCopyAccount={copyAccount}
                     isCopied={isCopied}
@@ -156,6 +169,21 @@ const VirtualAccountMobileCard = ({
             </motion.div>
           )}
         </AnimatePresence>
+
+        <ComingSoonModal
+          open={comingSoon !== null}
+          onOpenChange={() => setComingSoon(null)}
+          title={
+            comingSoon === "details"
+              ? "View Account Details"
+              : "Regenerate Account"
+          }
+          description={
+            comingSoon === "details"
+              ? "Account details will be available after backend integration."
+              : "Account regeneration will be available after backend integration."
+          }
+        />
       </Card>
     </motion.div>
   );
