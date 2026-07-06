@@ -76,7 +76,11 @@ const InvoiceActions = ({ invoice, onDelete }: InvoiceActionsProps) => {
         <DropdownItem
           destructive
           icon={Trash2}
-          onClick={() => onDelete(invoice)}
+          onClick={() => {
+            requestAnimationFrame(() => {
+              onDelete(invoice);
+            });
+          }}
         >
           Delete Invoice
         </DropdownItem>

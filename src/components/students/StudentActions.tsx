@@ -86,7 +86,11 @@ const StudentActions = ({ student, onDelete }: StudentActionsProps) => {
         <DropdownItem
           destructive
           icon={Trash2}
-          onClick={() => onDelete(student)}
+          onClick={() => {
+            requestAnimationFrame(() => {
+              onDelete(student);
+            });
+          }}
         >
           Delete Student
         </DropdownItem>
